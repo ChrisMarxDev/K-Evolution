@@ -4,15 +4,14 @@ import kevolution.engine.logging.Logger
 import kevolution.models.GeneInfoWrapper
 import kevolution.models.GenoType
 import kevolution.repopulation.combinator.Combinator
-import kevolution.repopulation.handler.SimpleRepopulationHandler
-import kevolution.repopulation.handler.RepopulationHandler
+import kevolution.repopulation.handler.SingleSourceRepopulationHandler
+import kevolution.repopulation.handler.AbstractPopulationHandler
 import kevolution.repopulation.mutator.Mutator
 import kevolution.selection.Selector
 import kevolution.selection.TournamentSelector
 
-class Engine<T : Any, C : Comparable<C>>(private val factory: GeneFactory<T>,
-                                         private val eval: (GenoType<T>) -> C,
-                                         var repopulationHandler: RepopulationHandler<T,C>,
+class Engine<T : Any, C : Comparable<C>>(private val eval: (GenoType<T>) -> C,
+                                         var abstractPopulationHandler: AbstractPopulationHandler<T, C>,
                                          private val config: EvolutionConfiguration = EvolutionConfiguration()) {
 
     constructor(factory: GeneFactory<T>,
@@ -20,7 +19,7 @@ class Engine<T : Any, C : Comparable<C>>(private val factory: GeneFactory<T>,
                 combinator: Combinator<T>,
                 mutator: Mutator<T>,
                 selector: Selector<T, C> = TournamentSelector(4),
-                config: EvolutionConfiguration = EvolutionConfiguration()) : this(factory, eval, SimpleRepopulationHandler(selector,combinator, mutator), config)
+                config: EvolutionConfiguration = EvolutionConfiguration()) : this(eval, SingleSourceRepopulationHandler(factory, selector, combinator, mutator), config)
 
 
     var population: List<GenoType<T>>
@@ -29,7 +28,7 @@ class Engine<T : Any, C : Comparable<C>>(private val factory: GeneFactory<T>,
 
 
     init {
-        population = ArrayList()
+        population = ArrayList<GenoType<T>>()
     }
 
     fun run() {
@@ -50,7 +49,7 @@ class Engine<T : Any, C : Comparable<C>>(private val factory: GeneFactory<T>,
     private fun resetAllParameters() {
         hallOfFame.reset()
 
-        population = factory.createGenoTypes(config.populationSize)
+        population = abstractPopulationHandler.createInitialPopulation(config.populationSize)
 
     }
 
@@ -61,9 +60,8 @@ class Engine<T : Any, C : Comparable<C>>(private val factory: GeneFactory<T>,
 
         halllOfFameCheck(evaluatedPopulation)
 
-        // create new population through repopulation combination and new randomization
-
-        return repopulationHandler.handleRepopulation(evaluatedPopulation)
+        // create new population through combination and mutation
+        return abstractPopulationHandler.handleRepopulation(evaluatedPopulation)
     }
 
     private fun getSortedEvaluatedPop(population: List<GenoType<T>>, generation: Int): List<GeneInfoWrapper<T, C>> {

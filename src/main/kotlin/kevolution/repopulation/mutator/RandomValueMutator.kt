@@ -1,6 +1,5 @@
 package kevolution.repopulation.mutator
 
-import kevolution.extensions.cleanPercentage
 import kevolution.extensions.replace
 import kevolution.models.GenoType
 import kotlin.random.Random

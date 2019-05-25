@@ -56,7 +56,7 @@ val goodPopulation = engine.population
 
 
 ## TODO
-+ Example that doesn't suck ass 
++ Examples that don't suck ass 
 
 + Everything else
 
@@ -64,4 +64,14 @@ val goodPopulation = engine.population
 
 + More combinators, mutators, and selectors
 
++ Better distinction between ordered mutators, selectors
+
++ Neural Networks
+
 + Doumentation
+
++ Convergence Tracker, general statistics
+
++ Overall improvements
+
++ Seriously. Overall improvements

@@ -10,7 +10,7 @@ import kevolution.selection.TournamentSelector
 import kotlin.random.Random
 
 
-class Starter {
+class HighIntSum {
 
     companion object {
 
@@ -24,8 +24,6 @@ class Starter {
 
         @JvmStatic
         fun main(args: Array<String>) {
-
-            val simpleMutationHanlder = RandomValueMutator(.3, { Random.nextInt(10) })
 
             //1. GeneFactory
             fun randomInt(): Int {
@@ -49,10 +47,6 @@ class Starter {
             engine.run()
 
             val population = engine.population
-
-            //4. Mutation
-
-            //5. Result
 
         }
     }

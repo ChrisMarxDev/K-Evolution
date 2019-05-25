@@ -8,6 +8,7 @@ object Logger {
 
     val GENERATION = "PROCESSING GENERATION: "
     final val INFO = "[INFO]: "
+    final val ERROR = "[ERRO]: "
 
     val FINAL_POPULATION = "[FINAL POPULATION: ]"
     val HOF = "[HALL OF FAME BEST RESULTS: ]"
@@ -60,6 +61,15 @@ object Logger {
     fun generation(gen: Int) {
         i(GENERATION + gen)
 
+    }
+
+    fun e(message: String) {
+        println(ERROR + message)
+    }
+
+    fun e(exception: Exception) {
+        exception.message?.let { e(it) }
+        exception.printStackTrace()
     }
 
 
