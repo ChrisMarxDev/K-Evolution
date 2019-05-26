@@ -65,8 +65,7 @@ class Knappsack {
             //1. GeneFactory
             val factory: GeneFactory<Boolean> = GeneFactory({ Random.nextBoolean() }, items.size)
 
-
-            val config = EvolutionConfiguration(generations = 1000, populationSize = 500)
+            val config = EvolutionConfiguration(generations = 100000, populationSize = 1000)
 
             //3.Selection
             val engine = Engine(
