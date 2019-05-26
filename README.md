@@ -1,4 +1,5 @@
 # K-Evolution
+Caution, currently under development, api might have changed
 
 Evolutionary Algorithm Framework for Kotlin
 
